@@ -1,6 +1,5 @@
 package com.eazybytes.filter;
 
-import com.eazybytes.constants.ApplicationConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
