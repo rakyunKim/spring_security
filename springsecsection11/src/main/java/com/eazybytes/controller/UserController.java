@@ -37,7 +37,7 @@ public class UserController {
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private Environment env;
+    private final Environment env;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Customer customer) {
@@ -76,9 +76,10 @@ public class UserController {
             if (null != env) {
                 String secret = env.getProperty(JWT_SECRET_KEY, JWT_SECRET_DEFAULT);
                 SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-                jwt = Jwts.builder().issuer("Eazy Bank").subject("JWT Token")
-                        .claim("username", authentication.getName())
-                        .claim("authorities", authentication.getAuthorities().stream().map(
+                jwt = Jwts.builder()
+                        .issuer("Eazy Bank").subject("JWT Token")
+                        .claim("username", authenticationResponse.getName())
+                        .claim("authorities", authenticationResponse.getAuthorities().stream().map(
                                 GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                         .issuedAt(new java.util.Date())
                         .expiration(new java.util.Date((new java.util.Date()).getTime() * 300000000))
